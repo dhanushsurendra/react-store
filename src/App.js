@@ -1,26 +1,32 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Switch, Route } from 'react-router-dom';
+import Auth from './container/Auth';
 
-function App() {
+import Navigation from './components/Nav/Navigation';
+import Products from './components/Products/Products';
+import Favorites from './container/Favorites';
+import { connect } from 'react-redux';
+
+const App = props => {
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <React.Fragment>
+      <React.Fragment>
+          <Navigation />
+          <Switch>
+            <Route path="/favorites" exact component={Favorites}/>
+            <Route path="/auth" exact component={Auth}/>
+            <Route path="/" component={Products}/>
+          </Switch>
+        </React.Fragment>
+    </React.Fragment>
   );
 }
 
-export default App;
+  const mapStateToProps = state => {
+    return {
+      auth: state.auth.isAuth
+    }
+  }
+
+export default connect(mapStateToProps)(App);
